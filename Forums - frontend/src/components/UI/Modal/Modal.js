@@ -3,7 +3,7 @@ import './Modal.css'
 import Backdrop from '../Backdrop/Backdrop'
 import TextRouter from '../NewMessage/TextRouter'
 
-const Modal = ({showModal, toggleModal, hideTopic}) => (
+const Modal = ({showModal, toggleModal, hideTopic, topicId, dbInfo}) => (
     <div>
         <Backdrop 
             showModal={showModal}
@@ -17,6 +17,8 @@ const Modal = ({showModal, toggleModal, hideTopic}) => (
                 visibility: showModal ? '': 'hidden'
             }}>
           <TextRouter
+             dbInfo={dbInfo}
+             topicId={topicId}
              hideTopic={hideTopic} 
           />
            

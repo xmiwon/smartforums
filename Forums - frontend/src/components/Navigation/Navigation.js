@@ -3,13 +3,15 @@ import SearchBox from './SearchBox/SearchBox'
 import './Navigation.css'
 import Modal from '../UI/Modal/Modal'
 
-const Navigation = ({ onRouteChange, isSignedIn, onInputChange, hideTopic, toggleModal, showModal }) => {
+const Navigation = ({ onRouteChange, isSignedIn, onInputChange, hideTopic, toggleModal, showModal, topicId, dbInfo }) => {
 
 if (isSignedIn) {
     // ALl sign in logic goes here
     return (
         <div>
         <Modal
+            dbInfo={dbInfo}
+            topicId={topicId}
             hideTopic={hideTopic} 
             toggleModal={toggleModal}
             showModal={showModal}/>

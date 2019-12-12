@@ -2,10 +2,11 @@ import React from 'react'
 import './NewTopic.css'
 const NewTopic = ({newText, messageLength, submitMessage, newTitle}) => {
     return (
+       
         <article className="br3 mv4 mw6 white center">
             <main>
             <form>
-                    <div>                     
+                    <div>        {console.log('hi')}              
                         <label htmlFor="title"><h1>Title</h1></label>  
                         <input 
                             id="title"

@@ -9,7 +9,8 @@ class TextRouter extends React.Component {
             textareaInput: '',
             title: '',
             userId: '',
-            textId: ''
+            textId: '',
+            routing:''
         }
       }
 
@@ -49,13 +50,23 @@ submitMessage = () => {
 updatePost = () => {
 
 }
+
+routingFunc = (route) => {
+if (route === 'reply') {
+    this.setState({routing: route})
+}
+}
     
     render() {
         return (
             <div>
             {
                this.props.hideTopic ? 
-               <Reply />
+               <Reply
+                    routingFunc={this.routingFunc}
+                    dbInfo={this.props.dbInfo} 
+                    topicId={this.props.topicId}
+               />
                : <NewTopic
                    newTitle={this.onTitleInput}
                    submitMessage={this.submitMessage}

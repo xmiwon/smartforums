@@ -152,6 +152,8 @@ class App extends Component {
  }
 
 
+ 
+
 toggleModal = () => {
     const toggle = this.state.showModal
     this.setState({showModal: !toggle})
@@ -253,6 +255,7 @@ goToTopic = (ids) => {
 
     })
     return (
+      
       <div className="App">
 
       <Particles 
@@ -261,6 +264,8 @@ goToTopic = (ids) => {
       />
 
       <Navigation 
+        dbInfo={flattenDB}
+        topicId={this.state.postingID}
         toggleModal={this.toggleModal}
         showModal={this.state.showModal}
         isSignedIn={isSignedIn} 
