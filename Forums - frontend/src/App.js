@@ -3,12 +3,14 @@ import './App.css';
 
 import Navigation from './components/Navigation/Navigation'
 import Particles from 'react-particles-js';
+import Modal from './components/UI/Modal/Modal'
 
 
 import TopicList from './components/TopicList/TopicList'
 import Post from './Post'
 import RecentTopic from './RecentTopic'
 import Profile from './components/Profile/Profile'
+import TextRouter from './components/UI/NewMessage/TextRouter'
 
 import Signin from './components/Signin/Signin'
 import Register from './components/Register/Register'
@@ -148,9 +150,12 @@ class App extends Component {
    fetch('http://localhost:3000')
     .then(response => response.json())
     .then(data => this.setState({DB: data}))
-    console.log(this.state.DB)
+    console.log('HELLo from fetchData in APp.js')
  }
 
+ refreshPage = () => {
+  window.location.reload()
+ }
 
  
 
@@ -266,8 +271,6 @@ goToTopic = (ids) => {
       <Navigation 
         dbInfo={flattenDB}
         topicId={this.state.postingID}
-        toggleModal={this.toggleModal}
-        showModal={this.state.showModal}
         isSignedIn={isSignedIn} 
         onRouteChange={this.onRouteChange}
         onInputChange={this.onInputChange} 
@@ -284,18 +287,33 @@ goToTopic = (ids) => {
         <RecentTopic 
           topic={flattenDB}
         />
+        <Modal
+          showModal={this.state.showModal}
+          toggleModal={this.toggleModal}>
+          <TextRouter
+              dbInfo={flattenDB}
+              topicId={this.state.postingID}
+              hideTopic={this.state.hideTopic}
+              showModal={this.state.showModal} 
+            />
+        </Modal>
             
             
 <button onClick={()=> {
   this.setState({showTopics: true})
   this.setState({hideTopic: false})
   }}>Show</button>
+  <button onClick={this.refreshPage}>Refresh</button>
+
+
               {
                 this.state.showTopics ?
                 (
                   <div>
 
                     <TopicList
+                      hideTopic={this.state.hideTopic}
+                      toggleModal={this.toggleModal}
                       clearInput={this.clearInput}
                       fetchData={this.fetchData}
                       goToTopic={this.goToTopic}
@@ -304,6 +322,8 @@ goToTopic = (ids) => {
                   </div>
                 ) : <Post //This one should be here.. should be in topicList where rendering is either topic or post
                       topicId={this.state.postingID}
+                      toggleModal={this.toggleModal}
+                      hideTopic={this.state.hideTopic}
                       dbInfo={flattenDB} />
               }              
             

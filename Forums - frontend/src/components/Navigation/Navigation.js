@@ -3,18 +3,12 @@ import SearchBox from './SearchBox/SearchBox'
 import './Navigation.css'
 import Modal from '../UI/Modal/Modal'
 
-const Navigation = ({ onRouteChange, isSignedIn, onInputChange, hideTopic, toggleModal, showModal, topicId, dbInfo }) => {
+const Navigation = ({ onRouteChange, isSignedIn, onInputChange, hideTopic}) => {
 
 if (isSignedIn) {
     // ALl sign in logic goes here
     return (
         <div>
-        <Modal
-            dbInfo={dbInfo}
-            topicId={topicId}
-            hideTopic={hideTopic} 
-            toggleModal={toggleModal}
-            showModal={showModal}/>
          <nav className='shadow-5' style={
              {
                  display: 'flex',
@@ -31,18 +25,7 @@ if (isSignedIn) {
                 }
                 
                 {
-                    hideTopic === false ?
-                    ( 
-                        <p 
-                        onClick={toggleModal}
-                        className="white b pv2 ph2 bg-gray hover-bg-mid-gray bn hover-shadow-inner pointer">New Topic</p>
-                    )   
-                        :   
-                    (
-                        <p 
-                            onClick={toggleModal}
-                            className="white b pv2 ph2 bg-gray dib hover-bg-mid-gray bn hover-shadow-inner pointer">Reply</p>   
-                    )
+
              }       
             
             <p 

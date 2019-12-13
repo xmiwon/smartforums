@@ -19,7 +19,7 @@ const Reply = ({topicId, dbInfo}) => {
                                 return (
                                     post.id === topicId ?
                                     (
-                                        <div className="bg-black">
+                                        <div key={post.id} className="bg-black">
                                             {post.body}
                                         </div>
                                     ) : null
