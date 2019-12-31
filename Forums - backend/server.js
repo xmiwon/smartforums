@@ -16,6 +16,7 @@ const signin = require('./controllers/signin')
 const profile = require('./controllers/profile')
 const image = require('./controllers/image')
 const postTopic = require('./controllers/postTopic')
+const newTopic = require('./controllers/newTopic')
 
 const db = knex({
     client: 'pg',
@@ -28,7 +29,7 @@ const db = knex({
 })
 
 db.select('*').from('users').then(data => {
-    console.log(data)
+    console.log(data, 'From server.js')
 });
 
 const app = express()
@@ -40,11 +41,15 @@ app.use(cors())
 
 
 app.get('/', (req, res) => {
-     res.send(databaseFile)
+    db.select('*').from('texting').then(data => {
+        console.log(data, 'From server.js')
+        res.send(data)
+    });
+     
 })
 
-app.post('/submit', (req, res) => {
-    postTopic.handleTopic(req, res)
+app.post('/create-topic', (req, res) => {
+    newTopic.handleTopic(req, res, db)
 })
 
 app.post('/signin', (req, res) => {
@@ -65,6 +70,11 @@ app.put('/image', (req, res) => {
 app.post('/imageurl', (req, res) => {
     image.handleApiCall(req, res)
 })
+
+
+
+
+
 
 
 app.listen(3000, () => {

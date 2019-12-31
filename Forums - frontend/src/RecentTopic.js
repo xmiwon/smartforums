@@ -4,7 +4,7 @@ const RecentTopic = ({topic}) => {
     const gori = topic.sort((a,b) => {
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
-        return new Date(b.updateId) - new Date(a.updateId);
+        return new Date(b.date) - new Date(a.date);
     });
 
     return (
@@ -19,10 +19,10 @@ const RecentTopic = ({topic}) => {
                 </div>
                 <div className="f6 lh-copy measure mt2">
                     {
-                        gori.reverse().map((items, id) => {
-                            return (                          
-                                <p key={id}>{items.title}</p>
-                            )
+                        gori.map((items, id) => {
+                        return (                          
+                             <p key={id}>{items.title_message}</p>
+                              )
                         })
                     }
 

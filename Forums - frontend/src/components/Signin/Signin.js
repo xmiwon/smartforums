@@ -64,7 +64,9 @@ class Signin extends React.Component {
                                 type="email"
                                 name="email-address"
                                 id="email-address"
-                                onChange={this.onEmailChange} />
+                                onChange={this.onEmailChange} 
+                                autoFocus
+                                />
                         </div>
                         <div className="mv3">
                             <label

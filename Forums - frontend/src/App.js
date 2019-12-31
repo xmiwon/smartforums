@@ -3,15 +3,18 @@ import './App.css';
 
 import Navigation from './components/Navigation/Navigation'
 import Particles from 'react-particles-js';
+import Modal from './components/UI/Modal/Modal'
 
 
 import TopicList from './components/TopicList/TopicList'
 import Post from './Post'
 import RecentTopic from './RecentTopic'
 import Profile from './components/Profile/Profile'
+import TextRouter from './components/UI/NewMessage/TextRouter'
 
 import Signin from './components/Signin/Signin'
 import Register from './components/Register/Register'
+import { Route, Link } from 'react-router-dom';
 
 const particlesOptions = {
     particles: {
@@ -145,11 +148,16 @@ class App extends Component {
 
   //Maybe change this one later. Find a better logic
  fetchData = () => {
-   fetch('http://localhost:3000')
+  setTimeout(()=> {
+    fetch('http://localhost:3000')
     .then(response => response.json())
-    .then(data => this.setState({DB: data}))
-    console.log(this.state.DB)
+    .then(data => {
+      this.setState({DB: data})
+    })
+  }, 1000)
+    console.log('HELLo from fetchData in APp.js')
  }
+
 
 
 toggleModal = () => {
@@ -247,12 +255,13 @@ goToTopic = (ids) => {
 
   render() {
     const { isSignedIn, route } = this.state
-    const flattenDB = this.state.DB
-    const filterTopic = flattenDB.filter(topic => {
-      return topic.title.toLowerCase().includes(this.state.searchTopicInput.toLowerCase())
+    const dbJSON = this.state.DB
+    const filterTopic = dbJSON.filter(topic => {
+      return topic.title_message.toLowerCase().includes(this.state.searchTopicInput.toLowerCase())
 
     })
     return (
+      
       <div className="App">
 
       <Particles 
@@ -261,8 +270,8 @@ goToTopic = (ids) => {
       />
 
       <Navigation 
-        toggleModal={this.toggleModal}
-        showModal={this.state.showModal}
+        dbInfo={dbJSON}
+        topicId={this.state.postingID}
         isSignedIn={isSignedIn} 
         onRouteChange={this.onRouteChange}
         onInputChange={this.onInputChange} 
@@ -277,20 +286,37 @@ goToTopic = (ids) => {
           entries={this.state.user.entries} 
         />
         <RecentTopic 
-          topic={flattenDB}
+          topic={dbJSON}
         />
+        <Modal
+          showModal={this.state.showModal}
+          toggleModal={this.toggleModal}>
+          <TextRouter
+              toggleModal={this.toggleModal}
+              transferDB={this.state.DB}
+              fetchData={this.fetchData}
+              dbInfo={dbJSON}
+              topicId={this.state.postingID}
+              hideTopic={this.state.hideTopic}
+              showModal={this.state.showModal}
+              email={this.state.user.email}
+            />
+        </Modal>
             
             
 <button onClick={()=> {
   this.setState({showTopics: true})
   this.setState({hideTopic: false})
   }}>Show</button>
+
               {
                 this.state.showTopics ?
                 (
                   <div>
 
                     <TopicList
+                      hideTopic={this.state.hideTopic}
+                      toggleModal={this.toggleModal}
                       clearInput={this.clearInput}
                       fetchData={this.fetchData}
                       goToTopic={this.goToTopic}
@@ -299,7 +325,9 @@ goToTopic = (ids) => {
                   </div>
                 ) : <Post //This one should be here.. should be in topicList where rendering is either topic or post
                       topicId={this.state.postingID}
-                      dbInfo={flattenDB} />
+                      toggleModal={this.toggleModal}
+                      hideTopic={this.state.hideTopic}
+                      dbInfo={dbJSON} />
               }              
             
         </div>
@@ -307,17 +335,20 @@ goToTopic = (ids) => {
             (
               route === 'signin' || route === 'signout' ?
               (
-               
+               <Route exact path='(/|/signin)'>
                 <Signin
                   fetchData={this.fetchData}
                   loadUser={this.loadUser} 
                   onRouteChange={this.onRouteChange} />
-          
+                </Route>
               )
               
-              : <Register 
-                  onRouteChange={this.onRouteChange}
-                  loadUser={this.loadUser} />
+              : <Route exact path='/register'>
+                  <Register 
+                    onRouteChange={this.onRouteChange}
+                    loadUser={this.loadUser} />
+                  </Route>
+                  
             )   
       }
     </div>
