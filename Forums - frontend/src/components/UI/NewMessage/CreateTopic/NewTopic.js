@@ -2,15 +2,13 @@ import React from 'react'
 import './NewTopic.css'
 const NewTopic = ({newText, messageLength, submitMessage, newTitle}) => {
     return (
+       
         <article className="br3 mv4 mw6 white center">
             <main>
             <form>
-                    <div>                     
+                    <div>        {console.log('NewTopic.js', 'onChange is possibly a performance hit')}              
                         <label htmlFor="title"><h1>Title</h1></label>  
-                        <input 
-                            id="title"
-                            onChange={newTitle}>
-                            </input>
+                        <input id="title" onChange={newTitle}/> 
                         <label htmlFor="comment" className="f6 b db mb2">Comments <span className=" white normal black-60">(optional)</span></label>
                         <textarea
                             onChange={newText}
@@ -21,12 +19,15 @@ const NewTopic = ({newText, messageLength, submitMessage, newTitle}) => {
                          </textarea>
                          <div>{messageLength}/1000</div>
                     </div>
-                </form>
+            </form>
+{//Take a look at how Topic, TopicList, Post work
+}              
                         <button
-                            onClick={() => submitMessage()}
+                            onClick={() => submitMessage()} 
                             className="b ph3 pv2 input-reset ba b--white bg-transparent grow pointer f6 dib white"
                             type="submit"
-                            value="submit">Submit</button>                         
+                            value="submit">Submit
+                        </button>                    
                 
             </main>
 </article>

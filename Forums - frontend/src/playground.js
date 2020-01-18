@@ -1,3 +1,3 @@
-const gori = Date()
+const gori =  new Date().toString()
 
-console.log(gori.splice(1))
+console.log(gori)

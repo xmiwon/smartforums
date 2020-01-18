@@ -34,7 +34,8 @@ class Signin extends React.Component {
         .then(user => {
             if (user.id) {
                 this.props.loadUser(user)
-               this.props.onRouteChange('home') 
+               this.props.onRouteChange('home')
+               
             } else {
                 alert('Unable to sign in')
             }
@@ -64,7 +65,9 @@ class Signin extends React.Component {
                                 type="email"
                                 name="email-address"
                                 id="email-address"
-                                onChange={this.onEmailChange} />
+                                onChange={this.onEmailChange} 
+                                autoFocus
+                                />
                         </div>
                         <div className="mv3">
                             <label

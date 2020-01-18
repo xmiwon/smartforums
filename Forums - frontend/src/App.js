@@ -3,15 +3,18 @@ import './App.css';
 
 import Navigation from './components/Navigation/Navigation'
 import Particles from 'react-particles-js';
+import Modal from './components/UI/Modal/Modal'
 
 
-import TopicList from './components/TopicList/TopicList'
+import TopicList from './components/TopicList/List'
 import Post from './Post'
 import RecentTopic from './RecentTopic'
 import Profile from './components/Profile/Profile'
+import TextRouter from './components/UI/NewMessage/TextRouter'
 
 import Signin from './components/Signin/Signin'
 import Register from './components/Register/Register'
+import { Route, Redirect, Switch, Link } from 'react-router-dom';
 
 const particlesOptions = {
     particles: {
@@ -123,10 +126,10 @@ const initialState = {
   imageUrl: '',
   box: {},
   DB: [],
-  route: 'signin',
+  route: null,
   postingID: null,
   isSignedIn: false,
-  hideTopic: false,
+  hideTopic: false, //can remove this later
   showModal: false,
   user: {
     id: '',
@@ -145,11 +148,16 @@ class App extends Component {
 
   //Maybe change this one later. Find a better logic
  fetchData = () => {
-   fetch('http://localhost:3000')
+  setTimeout(()=> {
+    fetch('http://localhost:3000')
     .then(response => response.json())
-    .then(data => this.setState({DB: data}))
-    console.log(this.state.DB)
+    .then(data => {
+      this.setState({DB: data})
+    })
+  }, 1000)
+    console.log('HELLo from fetchData in APp.js')
  }
+
 
 
 toggleModal = () => {
@@ -202,23 +210,23 @@ loadUser = (data) => {
 //     .catch(err => console.log(err));
 // }
 
-calculateFaceLocation = (data) => {
- const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
- const image = document.getElementById('inputimage')
- const width = Number(image.width);
- const height = Number(image.height);
- return {
-   leftCol: clarifaiFace.left_col * width,
-   topRow: clarifaiFace.top_row * height,
-   rightCol: width - (clarifaiFace.right_col * width),
-   bottomRow: height - (clarifaiFace.bottom_row * height)
- }
-}
+// calculateFaceLocation = (data) => {
+//  const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+//  const image = document.getElementById('inputimage')
+//  const width = Number(image.width);
+//  const height = Number(image.height);
+//  return {
+//    leftCol: clarifaiFace.left_col * width,
+//    topRow: clarifaiFace.top_row * height,
+//    rightCol: width - (clarifaiFace.right_col * width),
+//    bottomRow: height - (clarifaiFace.bottom_row * height)
+//  }
+// }
 
-displayFaceBox = (box) => {
-  console.log(box)
-  this.setState({box: box})
-}
+// displayFaceBox = (box) => {
+//   console.log(box)
+//   this.setState({box: box})
+// }
 
 onInputChange = (event) => {
   this.setState({searchTopicInput:event.target.value})
@@ -235,6 +243,9 @@ onRouteChange = (route) => {
     this.setState({isSignedIn: 'true'})
   }
   this.setState({route: route})
+  setTimeout(() => {console.log(this.state.route)}, 100)
+  
+  
 }
 
 goToTopic = (ids) => {
@@ -245,14 +256,19 @@ goToTopic = (ids) => {
   this.setState({hideTopic: true})
 }
 
+redirectToPost = () => {
+  
+}
+
   render() {
     const { isSignedIn, route } = this.state
-    const flattenDB = this.state.DB
-    const filterTopic = flattenDB.filter(topic => {
-      return topic.title.toLowerCase().includes(this.state.searchTopicInput.toLowerCase())
+    const dbJSON = this.state.DB
+    const filterTopic = dbJSON.filter(topic => {
+      return topic.title_message.toLowerCase().includes(this.state.searchTopicInput.toLowerCase())
 
     })
     return (
+      
       <div className="App">
 
       <Particles 
@@ -261,8 +277,8 @@ goToTopic = (ids) => {
       />
 
       <Navigation 
-        toggleModal={this.toggleModal}
-        showModal={this.state.showModal}
+        dbInfo={dbJSON}
+        topicId={this.state.postingID}
         isSignedIn={isSignedIn} 
         onRouteChange={this.onRouteChange}
         onInputChange={this.onInputChange} 
@@ -272,54 +288,86 @@ goToTopic = (ids) => {
       {/*If logged in, display these */ 
         route === 'home' ?
         <div>
+        <Redirect from="(/home|/register)" to={`/home/user/${this.state.user.name.toLowerCase()}/`} />
         <Profile 
           name={this.state.user.name}
           entries={this.state.user.entries} 
         />
         <RecentTopic 
-          topic={flattenDB}
+          topic={dbJSON}
         />
+        <Modal
+          showModal={this.state.showModal}
+          toggleModal={this.toggleModal}>
+          <TextRouter
+              toggleModal={this.toggleModal}
+              transferDB={this.state.DB}
+              fetchData={this.fetchData}
+              dbInfo={dbJSON}
+              topic={filterTopic}
+              topicId={this.state.postingID}
+              hideTopic={this.state.hideTopic}
+              showModal={this.state.showModal}
+              email={this.state.user.email}
+            />
+        </Modal>
             
-            
+{/*             
 <button onClick={()=> {
   this.setState({showTopics: true})
   this.setState({hideTopic: false})
-  }}>Show</button>
-              {
-                this.state.showTopics ?
-                (
-                  <div>
+  console.log(this.state.DB)
+  }}>Show</button> */}
 
+
+
+              {
+
+                  <div>
+                  <Switch>
+                  <Route path={`/home/user/${this.state.user.name.toLowerCase()}/`} exact>
                     <TopicList
+                      hideTopic={this.state.hideTopic}
+                      toggleModal={this.toggleModal}
                       clearInput={this.clearInput}
                       fetchData={this.fetchData}
                       goToTopic={this.goToTopic}
                       topic={filterTopic}               
-                    />                    
-                  </div>
-                ) : <Post //This one should be here.. should be in topicList where rendering is either topic or post
-                      topicId={this.state.postingID}
-                      dbInfo={flattenDB} />
+                    />
+                    </Route>
+                  
+              
+                <Route path="/post/">
+                  <Post //This one should be here.. should be in topicList where rendering is either topic or post
+                        topicId={this.state.postingID}
+                        toggleModal={this.toggleModal}
+                        hideTopic={this.state.hideTopic}
+                        dbInfo={dbJSON} />
+                    </Route>
+                    </Switch>
+                    </div>
               }              
-            
+
         </div>
         : 
-            (
-              route === 'signin' || route === 'signout' ?
-              (
-               
-                <Signin
-                  fetchData={this.fetchData}
-                  loadUser={this.loadUser} 
-                  onRouteChange={this.onRouteChange} />
-          
-              )
-              
-              : <Register 
-                  onRouteChange={this.onRouteChange}
-                  loadUser={this.loadUser} />
-            )   
+        <div>
+        
+              <Redirect from="" to="/start" />
+                <Route path="/start" exact>
+                    <Signin
+                      fetchData={this.fetchData}
+                      loadUser={this.loadUser}
+                      onRouteChange={this.onRouteChange} />
+                </Route>
+                <Route path="/register" exact>  
+                  <Register 
+                    onRouteChange={this.onRouteChange}
+                    loadUser={this.loadUser} />        
+                </Route>
+            
+          </div>
       }
+  
     </div>
     )
   };

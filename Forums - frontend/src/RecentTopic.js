@@ -1,37 +1,47 @@
 import React from 'react';
+import './RecentTopic.css';
 const RecentTopic = ({topic}) => {
 
-    const gori = topic.sort((a,b) => {
+    const recent = topic.sort((a,b) => {
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
-        return new Date(b.updateId) - new Date(a.updateId);
+        return new Date(b.date) - new Date(a.date);
     });
 
     return (
-        <article className="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
+        <div>
+            <h2>Recent Topics</h2>
+            <div className="RecentWindow">
+                {
+                    recent.slice(0, 4).map((items, id) => {
+                        return (
+                            <div className="RecentTopicCard" key={items.id}>
 
-            <div className="pa2 ph3-ns pb3-ns">
-                <div className="dt w-100 mt1">
-                    <div className="dtc">
-                        <h1 className="f5 f4-ns mv0">Recent Topics</h1>
-                    </div>
-                    
-                </div>
-                <div className="f6 lh-copy measure mt2">
-                    {
-                        gori.reverse().map((items, id) => {
-                            return (                          
-                                <p key={id}>{items.title}</p>
-                            )
-                        })
-                    }
+                                <li 
+                                    className="ListCard dim pointer bw2 shadow-5" 
+                                    >
+                                        <div className="CardWrapper">
+                                            <div className="title_message">{items.title_message}
+                                                
+                                            </div>
+                                            <div className="text_message">
+                                                {
+                                                    items.text_message.length > 100 ? items.text_message.substr(0, 101) + ' ...'
+                                                 : 
+                                                    items.text_message
+                                                }
+                                            </div>
+                                        </div>
+                                </li>
+                            </div>
+                        )
+                    })
+                }
+            </div>
 
-    </div>
-  </div>
-        </article>
+        </div>
     )
-    
-
 }
 
 export default RecentTopic;
+

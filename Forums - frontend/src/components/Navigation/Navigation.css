@@ -1,0 +1,9 @@
+.navBar {
+    background-color: rgba(180, 180, 180, 0.13);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.signOff {
+    background-color: transparent;
+}

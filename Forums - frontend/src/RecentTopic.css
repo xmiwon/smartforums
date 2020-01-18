@@ -1,0 +1,32 @@
+.RecentTopicCard {
+    display: inline-block;
+
+}
+.RecentWindow {
+    background-color: rgba(110, 110, 110, 0.5);
+    padding: 20px;
+}
+.ListCard {
+    background-color: white;
+    width: 200px;
+    text-align: left;
+    margin: 3px;
+    height: fit-content;
+    list-style: none;
+    padding-left: 10px;
+}
+
+.title_message {
+    color:#357EDD;
+    font-size: 17px;
+}
+
+.text_message {
+    color: black;
+    font-size: 12px;
+    padding-top: 10px;
+}
+
+.CardWrapper {
+    padding: 5px;
+}
