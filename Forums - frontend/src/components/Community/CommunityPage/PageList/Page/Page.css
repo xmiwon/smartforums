@@ -1,0 +1,39 @@
+.community-page-body {
+    background-color: rgb(255, 255, 255);
+    min-height: 100px;
+    width: 800px;
+    padding-top: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.community-page-card {
+    background-color: rgba(255, 255, 255, 0.561);
+    max-height: 700px;
+    overflow:hidden;
+}
+
+.community-page-title {
+    font-size: 20px;
+    color: rgb(0, 179, 110);
+    font-weight: bold;
+    padding: 5px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    text-align: left;
+    letter-spacing: 2px;
+}
+
+.community-page-img {
+    max-width: 700px;
+}
+
+.community-page-text {
+    max-height: 100px;
+    text-align: left;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow: hidden;
+}

@@ -1,0 +1,80 @@
+.PostFrame {
+    background-color: rgba(128, 128, 128, 0.39);
+    padding: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+    justify-content: center;
+
+}
+.outer-main-wrapper {
+    background-color: rgba(255, 255, 255, 0.151);
+    padding: 15px;
+}
+.main-wrapper {
+    background-color: white;
+}
+
+.content-box {
+    text-align: left;
+    padding: 30px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.top-box {
+    text-align: left;
+    border-left: 5px rgb(200, 200, 200) solid;
+    background-color: rgba(214, 214, 214, 0.575);
+    margin: 0;
+    padding: 5px;
+    padding-left: 15px;
+    font-size: 13px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.Replies {
+    margin-top: 2%;
+    margin-left: 20px;
+}
+
+
+.user-posts, .user-post-date, .user-name  {
+    display: inline;
+    margin: 10px;
+    font-size: 9px;
+}
+.user-name {
+    font-size: 15px;
+}
+
+.user-name:hover {
+    text-decoration: underline;
+}
+
+.blue-title{
+    color: rgb(0, 119, 255);
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+@media only screen and (max-width: 600px) {
+    .PostFrame {
+        width: 95%;
+        min-width: 0;
+    }
+
+    .Replies {
+        margin-top: 10%;
+        margin-left: 0;
+    }
+    .content-box {
+        text-align: left;
+        padding: 20px;
+    }
+
+ 
+  }

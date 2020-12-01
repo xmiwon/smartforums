@@ -1,11 +1,12 @@
 import React from 'react'
 import NewTopic from './CreateTopic/NewTopic'
 import Reply from './CreateReply/Reply'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 // TEXTROUTER IS INSIDE MODAL AND THUS ONLY MANIPULATE CODE INSIDE MODAL
 const initialState = {
     textareaInput: '',
-    title: ''
+    title: '',
+    replyInput: ''
 }
 
 
@@ -21,6 +22,18 @@ onTextInput = (event) => {
      : 
     console.log('Reached limit')
 }
+onReplyInput = (event) => {
+    this.state.replyInput.length <= 1000 ?
+    this.setState({replyInput: event.target.value})
+    :
+    console.log('Reached limit')
+}
+
+cleanState = () => {
+    this.setState({title: ''})
+    this.setState({textareaInput: ''})
+    this.setState({replyInput: ''})
+}
 
 onTitleInput = (event) => {
     this.state.title.length <= 25 ?
@@ -29,7 +42,7 @@ onTitleInput = (event) => {
     console.log('Too long title')
 }
 
-submitMessage = (ids) => {
+submitMessage = () => {
     fetch('http://localhost:3000/create-topic', {
         method: 'post',
         headers: {'Content-Type':'application/json'},
@@ -43,7 +56,28 @@ submitMessage = (ids) => {
     .catch(err => console.log(err))
     console.log(this.props.email, 'From TextRouter.js')
     this.props.fetchData()
-    this.props.toggleModal()    
+    this.props.toggleModal('')    
+}
+
+submitReply = () => {
+    console.log(this.props.topicId, 'THIS IS FFROM TEXTROUTER')
+    fetch('http://localhost:3000/post-reply', {
+        method: 'post',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+            topic_id: this.props.topicId,
+            email: this.props.email,
+            name: this.props.name,
+            reply_message: this.state.replyInput
+        })
+    })
+    .then(response => response.json('Replied successfully'))
+    .catch(err => console.log(err))
+    this.props.toggleModal() 
+    setTimeout(() => {
+        this.props.fetchReplies()
+        
+    }, 1500)
 }
 
     render() {
@@ -51,19 +85,24 @@ submitMessage = (ids) => {
             <div>
             {
                 <Switch>
-                    <Route path="/post/">                         
+                    <Route path="/home/forum/topics/post/">                         
                         <Reply
-                            dbInfo={this.props.dbInfo} 
+                            dbInfo={this.props.dbInfo}
+                            submitReply={this.submitReply} 
                             topicId={this.props.topicId}
+                            onReplyInput={this.onReplyInput}
+                            messageLength={this.state.replyInput.length}
+                            cleanState={this.cleanState}
                         />
                     </Route>
 
-                    <Route path={`/home/user/`} >
+                    <Route path={`/home/forum/topics/`} >
                         <NewTopic
                             newTitle={this.onTitleInput}
                             submitMessage={this.submitMessage}
                             messageLength={this.state.textareaInput.length}
                             newText={this.onTextInput}
+                            cleanState={this.cleanState}
                             />
                     </Route>
                </Switch>

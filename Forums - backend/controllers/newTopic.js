@@ -1,9 +1,10 @@
-const handleTopic = (req, res, db) => {
+const handleTopic = (req, res, db, dateTime) => {
     const { email, title_message, text_message } = req.body
     if (!title_message || !text_message) {
         return res.status(400).json('Incorrect form submission')
     }
 
+        
     db.select('email').from('users')
         .where('email', '=', email)
     db.transaction(trx => {
@@ -11,12 +12,11 @@ const handleTopic = (req, res, db) => {
             title_message: title_message,
             text_message: text_message,
             email: email,
-            date: new Date()
+            date: dateTime
         })
         .into('texting')
         .then(trx.commit)       
         .catch(trx.rollback)
-    
     })
     res.status(200).json('success')
     .catch(err => res.status(400).json('Unable to post'))

@@ -4,22 +4,31 @@ import './App.css';
 import Navigation from './components/Navigation/Navigation'
 import Particles from 'react-particles-js';
 import Modal from './components/UI/Modal/Modal'
+import Dropdown from './components/UI/Dropdown/Dropdown'
 
 
-import TopicList from './components/TopicList/List'
-import Post from './Post'
-import RecentTopic from './RecentTopic'
+import List from './components/TopicList/List'
+import Post from './components/TopicList/Post/Post'
+import RecentTopic from './components/RecentTopic/RecentTopic'
 import Profile from './components/Profile/Profile'
 import TextRouter from './components/UI/NewMessage/TextRouter'
+import TimelineRouter from './components/TimelineRouter/TimelineRouter'
+import Footer from './components/UI/Footer/Footer'
+import Settings from './components/UI/Settings/Settings'
+import CommunityPanel from './components/Community/CommunityPanel/CommunityPanel'
+import CommunityRender from './components/Community/CommunityRender/CommunityRender'
+import FrontPage from './components/Community/CommunityPage/FrontPage/FrontPage'
+import Info from './components/Info/Info'
 
 import Signin from './components/Signin/Signin'
 import Register from './components/Register/Register'
 import { Route, Redirect, Switch, Link } from 'react-router-dom';
 
+
 const particlesOptions = {
     particles: {
       number: {
-        value: 15,
+        value: 10,
           density: {
             enable: true,
             value_area: 800
@@ -40,7 +49,7 @@ const particlesOptions = {
     "random": false,
     "anim": {
       "enable": true,
-      "speed": 0.1,
+      "speed": 0,
       "opacity_min": 0.1,
       "sync": false
     }
@@ -50,7 +59,7 @@ const particlesOptions = {
     "random": true,
     "anim": {
       "enable": true,
-      "speed": 5.181158184520175,
+      "speed": 1.181158184520175,
       "size_min": 0.1,
       "sync": true
     }
@@ -64,9 +73,9 @@ const particlesOptions = {
   },
   "move": {
     "enable": true,
-    "speed": 1,
+    "speed": 0.5,
     "direction": "none",
-    "random": false,
+    "random": true,
     "straight": false,
     "out_mode": "bounce",
     "bounce": false,
@@ -121,16 +130,20 @@ const particlesOptions = {
 
     
 const initialState = {
-  showTopics: true,
   searchTopicInput: '',
-  imageUrl: '',
-  box: {},
-  DB: [],
+  imageUrl: '', //can remove
+  box: {}, //can remove
+  Database: [],
+  communityPages: [],
+  DBtopic: [],
+  DBtimeline: [],
+  DBusers: [],
   route: null,
-  postingID: null,
+  postingID: null, //universal id variable for both topics and communities
+  communityId: null,
   isSignedIn: false,
-  hideTopic: false, //can remove this later
-  showModal: false,
+  showModal: '',
+  showDropdown: false,
   user: {
     id: '',
     name: '',
@@ -143,26 +156,63 @@ const initialState = {
 class App extends Component {
   constructor() {
     super()
-    this.state = initialState
+    this.state = initialState   
+  }
+
+
+  fetchPages = (address) => {
+    setTimeout(()=> {
+      fetch(address)
+      .then(response => response.json())
+      .then(data => this.setState({communityPages: data}))
+    })
+  }
+
+
+  fetchCommunities = () => {
+    setTimeout(()=> {
+      fetch('http://localhost:3000/community-pages')
+      .then(response => response.json())
+      .then(data => this.setState({Database: data}))
+    }, 100)
   }
 
   //Maybe change this one later. Find a better logic
  fetchData = () => {
   setTimeout(()=> {
-    fetch('http://localhost:3000')
+    fetch('http://localhost:3000/home')
     .then(response => response.json())
-    .then(data => {
-      this.setState({DB: data})
-    })
-  }, 1000)
-    console.log('HELLo from fetchData in APp.js')
+    .then(data => this.setState({DBtopic: data}))
+  }, 0)}
+
+ fetchUsers = () => {
+   setTimeout(() => {
+     fetch('http://localhost:3000/users')
+     .then(response => response.json())
+     .then(data => this.setState({DBusers: data}))
+   })
  }
 
+ fetchReplies = () => {
+   setTimeout(() => {
+     fetch('http://localhost:3000/post')
+     .then(response => response.json())
+     .then(data => this.setState({Database: data}))
+   })
+ }
+ fetchTimeline = () => {
+   fetch('http://localhost:3000/timeline')
+   .then(res => res.json())
+   .then(data => this.setState({DBtimeline: data}))
+ }
 
+toggleModal = (key) => {
+    this.setState({showModal: key})
+}
 
-toggleModal = () => {
-    const toggle = this.state.showModal
-    this.setState({showModal: !toggle})
+toggleDropdown = () => {
+  const toggle = this.state.showDropdown
+  this.setState({showDropdown: !toggle})
 }
 loadUser = (data) => {
     this.setState({ user: 
@@ -232,6 +282,7 @@ onInputChange = (event) => {
   this.setState({searchTopicInput:event.target.value})
 }
 
+
 clearInput = () => {
   this.setState({searchTopicInput: ''})
 }
@@ -249,105 +300,182 @@ onRouteChange = (route) => {
 }
 
 goToTopic = (ids) => {
-  this.setState({showTopics: false})
-  this.setState({postingID: ids}, () => {
-    console.log('Post id' ,this.state.postingID)
-  })
-  this.setState({hideTopic: true})
+  this.pageClick(ids)
 }
 
-redirectToPost = () => {
-  
-}
+pageClick = (id, cId) => {
+  this.setState({postingID: id, communityId: cId}, () => {console.log(this.state.postingID, this.state.communityId)})
+  }
 
   render() {
     const { isSignedIn, route } = this.state
-    const dbJSON = this.state.DB
+    const dbJSON = this.state.DBtopic
     const filterTopic = dbJSON.filter(topic => {
       return topic.title_message.toLowerCase().includes(this.state.searchTopicInput.toLowerCase())
 
     })
-    return (
-      
-      <div className="App">
+    
+      return (
+        // {this.state.showModal === 'Timeline' ?classes.off : null}
+        <div className="App">
 
       <Particles 
-        className='particles'
+        className="particles"
         params={particlesOptions} 
       />
 
       <Navigation 
         dbInfo={dbJSON}
-        topicId={this.state.postingID}
         isSignedIn={isSignedIn} 
         onRouteChange={this.onRouteChange}
         onInputChange={this.onInputChange} 
-        hideTopic={this.state.hideTopic}
+        toggleModal={this.toggleModal}
+        toggleDropdown={this.toggleDropdown}
       />
+        <Dropdown 
+          showDropdown={this.state.showDropdown}
+          toggleDropdown={this.toggleDropdown}
+          onRouteChange={this.onRouteChange}>
 
+          <Settings />
+          
+        </Dropdown>
       {/*If logged in, display these */ 
         route === 'home' ?
         <div>
-        <Redirect from="(/home|/register)" to={`/home/user/${this.state.user.name.toLowerCase()}/`} />
-        <Profile 
-          name={this.state.user.name}
-          entries={this.state.user.entries} 
-        />
-        <RecentTopic 
-          topic={dbJSON}
-        />
-        <Modal
-          showModal={this.state.showModal}
-          toggleModal={this.toggleModal}>
-          <TextRouter
-              toggleModal={this.toggleModal}
-              transferDB={this.state.DB}
-              fetchData={this.fetchData}
-              dbInfo={dbJSON}
-              topic={filterTopic}
-              topicId={this.state.postingID}
-              hideTopic={this.state.hideTopic}
-              showModal={this.state.showModal}
-              email={this.state.user.email}
+        <Redirect from="(/home|/register)" to={`/home/forum/topics/${this.state.user.name.toLowerCase()}/`} />
+        <div>
+          <div>
+          <Route path={`/home/community-pages/${this.state.postingID}`}>
+            <FrontPage 
+                Database={this.state.Database}
+                fetchCommunities={this.fetchCommunities}
+                pageId={this.state.postingID}
             />
-        </Modal>
+          </Route>
             
-{/*             
-<button onClick={()=> {
-  this.setState({showTopics: true})
-  this.setState({hideTopic: false})
-  console.log(this.state.DB)
-  }}>Show</button> */}
-
-
-
-              {
-
-                  <div>
-                  <Switch>
-                  <Route path={`/home/user/${this.state.user.name.toLowerCase()}/`} exact>
-                    <TopicList
-                      hideTopic={this.state.hideTopic}
-                      toggleModal={this.toggleModal}
-                      clearInput={this.clearInput}
-                      fetchData={this.fetchData}
-                      goToTopic={this.goToTopic}
-                      topic={filterTopic}               
-                    />
+          </div>
+        <div className="center-panel">
+           
+              <div className="inner-panel">
+                <Switch>
+                    <Route path={`/home/forum/topics/${this.state.user.name.toLowerCase()}/`} exact>
+                      <List
+                        toggleModal={this.toggleModal}
+                        clearInput={this.clearInput}
+                        fetchData={this.fetchData}
+                        goToTopic={this.goToTopic}
+                        topic={filterTopic}
+                        fetchUsers={this.fetchUsers}
+                        fetchReplies={this.fetchReplies}
+                      />
                     </Route>
-                  
-              
-                <Route path="/post/">
-                  <Post //This one should be here.. should be in topicList where rendering is either topic or post
+                    <Route path="/home/forum/topics/post/">
+                      <Post //This one should be here.. should be in topicList where rendering is either topic or post
                         topicId={this.state.postingID}
                         toggleModal={this.toggleModal}
-                        hideTopic={this.state.hideTopic}
-                        dbInfo={dbJSON} />
+                        dbInfo={dbJSON}
+                        Database={this.state.Database}
+                        name={this.state.user.name}
+                        DBusers={this.state.DBusers}
+                        entries={this.state.user.entries} />
                     </Route>
-                    </Switch>
-                    </div>
-              }              
+                    {/* <Route path="/timeline/">
+                      <Timeline>
 
+                      </Timeline>               
+                    </Route> */}
+                    <Route path={`/home/community-pages`}> 
+                        <CommunityRender
+                          communityPages={this.state.communityPages}
+                          fetchPages={this.fetchPages}
+                          Database={this.state.Database}
+                          fetchCommunities={this.fetchCommunities}
+                          postingID={this.state.postingID}
+                          communityId={this.state.communityId} 
+                          pageClick={this.pageClick}
+                          users={this.fetchUsers} />
+                      
+                    </Route>
+                </Switch>
+                </div>
+              
+                <div className="right-panel">
+                 
+                    <div className="Buttons-bar">
+                      <Switch>
+                        <Route path={`/home/forum/topics/${this.state.user.name.toLowerCase()}/`} exact>                      
+                            <button
+                              onClick={() => this.toggleModal('New Topic')}
+                              className="Create-button">New Topic
+                            </button>
+                            <Link to={`/home/community-pages`}>
+                              <button className="Create-button">
+                                Page
+                              </button>
+                            </Link>
+                            <button className="Create-button">
+                              Timeline
+                            </button> 
+                        </Route>
+                        <Route path={`/home/forum/topics/post/`}>
+                          <button
+                            onClick={() => this.toggleModal('Reply')}
+                            className="Create-button">Reply
+                          </button>
+                          <button className="Create-button">
+                            Timeline
+                          </button>
+                        </Route>
+                      </Switch>
+                  
+                  </div>
+                    <Profile
+                      name={this.state.user.name}
+                      entries={this.state.user.entries}
+                      showModal={this.state.showModal}
+                      toggleModal={this.toggleModal}
+                      fetchTimeline={this.fetchTimeline}
+                    />
+                    <RecentTopic
+                      topic={dbJSON}
+                    />
+                      <CommunityPanel topic={this.state.Database} fetchCommunities={this.fetchCommunities}/>
+                    <Info />
+                    
+                </div>
+        </div>
+        </div>
+                  <Footer />
+                <Route path={`/home/forum/topics/`}>
+                  <Modal
+                    showModal={this.state.showModal}
+                    toggleModal={this.toggleModal}>
+                    {
+                      this.state.showModal === 'New Topic' || this.state.showModal === 'Reply' ?
+                        (
+
+                          <TextRouter
+                            toggleModal={this.toggleModal}
+                            transferDB={this.state.DBtopic}
+                            fetchData={this.fetchData}
+                            dbInfo={dbJSON}
+                            topic={filterTopic}
+                            topicId={this.state.postingID}
+                            showModal={this.state.showModal}
+                            email={this.state.user.email}
+                            name={this.state.user.name}
+                            fetchReplies={this.fetchReplies}
+                          />
+                        ) : <TimelineRouter
+                          DBtimeline={this.state.DBtimeline}
+                          userInfo={this.state.user}
+                          onInputChange2={this.onInputChange2}
+                          typing={this.state.typing}
+                        />
+                    }
+                  </Modal>
+                </Route>
         </div>
         : 
         <div>
@@ -370,6 +498,7 @@ redirectToPost = () => {
   
     </div>
     )
+  
   };
 }
 

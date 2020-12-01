@@ -1,20 +1,52 @@
 import React from 'react'
+import './Profile.css'
+import duck from './duck.jpg'
+// import ProfilePage from './ProfilePage/ProfilePage'
 
-const Profile = ({ name, entries}) => {
+const Profile = ({ name, entries, toggleModal, fetchTimeline }) => {
+
+
     return (
-        
-        <div className='mw5 center bg-white br3 pa3 pa4-ns mv3 ba b--black-10'>
-    <div className='tc'>
-    <img 
-        src="http://tachyons.io/img/avatar_1.jpg" 
-        className="br-100 h3 w3 dib" 
-        title="Kitty" />
-    <h1 className="f4">Welcome, {name}!</h1>
-    <hr className="mw3 bb bw1 b--black-10"></hr>
-  
-            <p className="black">Your entries: {entries}</p>
-   
+       
+        <div className='Profile-Card'>
+
+            
+            
+            <div 
+                onClick={()=> {
+                    toggleModal('Timeline')
+                    fetchTimeline()
+                    }} 
+                className='Profile-Content'>                  
+                
+                    <div className="Profile-container">
+
+                    <div className="Profile-avatar">
+                        <img src={duck} className="br-100 h3 w3 dib" alt="Ducky" />          
+                        <h1 className="f4">{name}</h1>
+                    </div>
+                        <hr className="mw3 bb bw1 b--black-10"></hr>
+
+                        <div className="component-holder">
+                            <div className="profile-posts">
+                                {entries}
+                                <p className="profile-text">Posts</p>
+                            </div>
+                            <div className="profile-likes">
+                                {5080}
+                                <p className="profile-text">Likes</p>
+                            </div>
+                            <div className="profile-friends">
+                                {'25'}
+                                <p className="profile-text">Friends</p>
+                            </div>
+                            <div className="profile-level">{'Level 5'}</div>
+                        </div>
+                        
+                    </div>
+              
             </div>
+           
         </div>
 
     )

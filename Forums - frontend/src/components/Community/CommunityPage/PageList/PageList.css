@@ -1,0 +1,51 @@
+.pagelist-body {
+    padding: 10px;
+    padding-left:50px;
+    padding-right: 50px;
+    background-color: rgba(255, 255, 255, 0.616);
+    width: 1000px;
+    height: 100%;
+}
+
+.pagelist-wrap {
+    display: flex;
+    justify-content: center;   
+    
+}
+
+.pagelist-story-title {
+    font-size: 30px;
+    color: rgb(0, 133, 173);
+    font-weight: bold;
+    padding: 5px;
+    text-align: left;
+    letter-spacing: 2px;
+}
+
+.pagelist-story-title {
+    font-size: 25px;
+}
+
+.pagelist-sidebar {
+    background-color: rgb(250, 250, 250);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.pagelist-up-arrow {
+
+}
+
+.arrow-up, .arrow-down {
+    padding: 3px;
+    user-select: none;
+}
+
+.arrow-up:hover, .arrow-down:hover {
+    cursor: pointer;
+    background-color: gray;
+}
+
+.pagelist-down-arrow {
+
+}

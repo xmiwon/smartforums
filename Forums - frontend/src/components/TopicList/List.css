@@ -1,7 +1,40 @@
 .Topic1 {
-    display: flex;
-    justify-content: center;
+    width: 900px;
+    padding: 10px;
+    background-color: rgba(219, 219, 219, 0.431);
+}
+
+.list-title {
+    font-size: 30px;
+    color: rgb(0, 133, 173);
+    font-weight: bold;
+    padding: 5px;
+    text-align: left;
+    letter-spacing: 2px;
 }
 .buttonBar {
-    background-color: rgba(110, 110, 110, 0.5);
+    margin: 0;
 }
+
+.List-topic {
+    width: 700px;
+}
+
+
+
+.title-container {
+display: flex;
+}
+
+@media only screen and (max-width: 1400px) {
+  .List-topic {
+      width: 100%;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .Topic1 {
+        margin-bottom: 10%;
+    }
+  }

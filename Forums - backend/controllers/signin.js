@@ -8,13 +8,14 @@ const handleSignin = (req, res, db, bcrypt) => {
     db.select('email', 'hash').from('login')
         .where('email', '=', email)
         .then(data => {
+            console.log(data, 'FROM SIGNIN.js')
            const isValid = bcrypt.compareSync(password, data[0].hash)
            if (isValid) {
               return db.select('*').from('users')
                 .where('email', '=', email)
                 .then(user => {
                     res.json(user[0])
-                    console.log(`\n"${email}" successfully logged in to the server:\n(${Date()}`)
+                    console.log(`\n"${email}" successfully logged in to the server:\n(${new Date().toLocaleDateString()}`)
                     fs.appendFile('Log.txt', `\n"${email}" successfully logged in to the server:\n(${Date()}) \n ----------------------------------------`, err => {
                         if (err) {
                             console.log(err)
@@ -23,7 +24,7 @@ const handleSignin = (req, res, db, bcrypt) => {
                 })      
                 .catch(err => res.status(400).json('Unable to get user'))      
            } else {
-               res.status(400).json('Wrong credentials')
+               res.status(400).json('Wrong credentials!')
                
                fs.appendFile('Log.txt', `\nWRONG ATTEMPT: 
                 Email: ${req.body.email} 

@@ -1,10 +1,39 @@
 .Card1 {
+    position: relative;
     text-align: left;
-    background-color: white;
+    background-color: rgb(148, 148, 148);
     height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid rgb(194, 194, 194);
+    padding-top: 10px;
+    white-space: pre-line;
+    overflow: hidden;
+}
+
+.Card1:hover {
+    cursor: pointer;
+    background-color: rgba(245, 245, 245, 0.431);
 }
 
 .date {
     text-align: right;
 }
 
+.blue {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+.date { 
+    position: absolute;
+    padding-right: 10px;
+    bottom: 0;
+    right: 0;
+}
+
+.topic-content {
+    margin-top: 20px;
+    margin-left: 30px;
+}

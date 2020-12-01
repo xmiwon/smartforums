@@ -1,0 +1,27 @@
+.Info-container {
+    display: flex;
+    flex-wrap: wrap;
+    width:300px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: white;
+}   
+
+.label-info {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.label-info:hover {
+   color: rgb(184, 184, 184);
+}
+
+@media only screen and (max-width: 1000px) {
+    .Info-container {
+        width:100%;
+    }
+}

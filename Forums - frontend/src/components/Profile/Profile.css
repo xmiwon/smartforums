@@ -1,0 +1,196 @@
+.Profile-Card {
+    margin-right: auto;
+    margin-left: auto;
+    cursor: default;
+}
+
+.Profile-Content {
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(255, 255, 255);
+    transition: 0.2s;
+}
+
+.Profile-Content:hover {
+    color: rgb(141, 141, 141);
+}
+
+.Profile-container {
+    display: flex;
+    padding: 10px;
+    width: 300px;
+    background-color: rgb(255, 255, 255);
+}
+
+.profile-level {
+    display: flex; 
+}
+
+.f4 {
+    margin: 0;
+}
+
+
+.Profile-Tab {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-bottom: 2px solid black;
+    width: fit-content;
+}
+
+.Profile-Tab:hover {
+    background-color: gray;
+}
+.component-holder {
+    display: flex;
+    flex-wrap: wrap;
+    border-left: 1px solid rgba(128, 128, 128, 0.342);
+    margin-left: 5px;
+    width: 100%;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    
+}
+
+.profile-posts, .profile-likes, .profile-friends, .profile-level{
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.profile-text {
+    font-size: 10px;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+
+  @media only screen and (max-width: 1200px) {
+    .Profile-Card {
+        width: 100%;
+        height: fit-content;
+        margin-right: auto;
+        margin-left: auto;
+        cursor: default;
+    }
+    .Profile-Content {
+        height: auto;
+        width: auto;
+    }
+    .Profile-Content:hover {
+        transform: none;
+    }
+         
+    .Profile-Tab {
+        padding: 5px;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        border-bottom: 2px solid black;
+        width: fit-content;
+    }
+    
+    .Profile-Tab:hover {
+        background-color: gray;
+    }
+    .component-holder {
+        display: flex;
+        width: 100%;
+        background-color: white;
+        justify-content: center;
+    }
+    
+    .profile-posts, .profile-likes, .profile-friends  {
+        margin: 10px;
+        font-size: 18px;
+        font-weight: bolder;
+    }
+    
+    .profile-text {
+        font-size: 10px;
+        margin-top: 5px;
+        font-weight: normal;
+    }
+  }
+
+
+
+
+
+
+  /*
+  
+  .Profile-Card {
+    width: 100%;
+    height: 300px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top:5%;
+    cursor: default;
+}
+
+.Profile-Content {
+    width: 200px;
+    height: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    background-color: rgba(212, 212, 212, 0.555);
+    transition: 0.2s;
+}
+
+.Profile-Content:hover {
+    transform: scale(1.1)
+}
+
+
+.Profile-Tab {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-bottom: 2px solid black;
+    width: fit-content;
+}
+
+.Profile-Tab:hover {
+    background-color: gray;
+}
+.component-holder {
+    display: flex;
+    width: 100%;
+    background-color: white;
+    justify-content: center;
+}
+
+.profile-posts, .profile-likes, .profile-friends  {
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.profile-text {
+    font-size: 10px;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+
+
+@media only screen and (max-width: 650px) {
+    .Profile-Card {
+      margin-right: auto;
+      margin-left: auto
+    }
+    .Profile-Content {
+        margin-right: auto;
+        margin-left: auto;
+        background-color: rgba(212, 212, 212, 0.555);
+    }
+  }
+
+  */

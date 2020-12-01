@@ -2,25 +2,28 @@ import React from 'react'
 import './Topic.css'
 
 
-const Topic = ({title, body, goToTopic, postId, fetchData, date, clearInput}) => {
+const Topic = ({title, body, goToTopic, postId, fetchData, date, clearInput, fetchReplies, fetchUsers}) => {
     return (
         
         
         <div 
+            className="Card1"
             onClick={() => {
                 goToTopic(postId)
                 fetchData()  //REMOVE THIS LINE IF GOING BACK TO COMPONENTDIDMOUNT
+                fetchReplies()
+                fetchUsers()
                 clearInput()
                 console.log(body, 'Topic.js')
             }}
-            className='Card1 f3 pa3 ma3 dim pointer bw2 shadow-5'
+            
             >
             <div className="blue">     
                 {
                     title
                     }     
             </div>
-            <div className="f5 ma3">
+            <div className="topic-content">
                 {
                     body.length > 100 ?
                         body.substr(0, 101)
@@ -28,8 +31,8 @@ const Topic = ({title, body, goToTopic, postId, fetchData, date, clearInput}) =>
                         body                           
                 }
             </div>
-            <div className="date f6">  
-                    <h6>{date}</h6>   
+            <div className="date">  
+                {date} 
             </div>
 
         </div>

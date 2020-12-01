@@ -1,0 +1,26 @@
+.front-container {
+
+}
+.image-container {
+    display: block;
+    background-position: center top;
+
+}
+.front-page-bottom {
+    text-align: left;
+    background-color: white;
+    height: 100px;
+}
+
+.front-page-title {
+    padding: 10px;
+    color: rgb(0, 133, 173);
+    font-size: 40px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/*
+    <span style="background:#b8001f url(https://styles.redditmedia.com/t5_2w6ir/styles/bannerBackgroundImage_bsg93by2ibq41.jpg?format=pjpg&amp;s=34b5f2fca89eed6eb89b17fde7e160b50f3abe3e) no-repeat center / cover;background-position:center top;height:228px;" class="_2L5G9B5yaoqW3IegiYN-FL"><a class="_36MHhLdcmnzdWt0OMdNlwd" href="/r/blackdesertonline/"><div style="max-width:1200px" class="_2RkQc9Gtsq3cPQNZLYv4zc _1lDljcXh3IMpCeypDtnDAr"><div style="left:50%;transform:translate(-50%, -50%);height:176px" class="_26j3FxU4jTfjqi8m96HMmI _26j3FxU4jTfjqi8m96HMmI _114maV-96nVPek5oReA0kO _2L0wcm3McgWbJBT9_UHWyU"></div></div></a></span>
+
+*/

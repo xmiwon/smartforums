@@ -7,6 +7,7 @@
   justify-content: center;
 }
 
+
 .particles {
   position: fixed;
   top: 0;
@@ -18,4 +19,85 @@
 
 footer {
   font-size: 16px;
+}
+
+.center-panel {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  padding-top: 50px;
+}
+
+
+.right-panel {
+  position: sticky;
+  top: 0;
+  height: fit-content;
+  padding: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+a {
+  color: black;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(82, 82, 82); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(54, 54, 54); 
+}
+.Buttons-bar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.Create-button {
+  padding: 10px;
+  background-color: #555;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  border-width: 0;
+  font-family: inherit;
+  line-height: 1.10;
+  font-size: 13px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .Profile-Topic-Wrapper {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+  .center-panel {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .right-panel {
+    position: static;
+    top: auto;
+    height: fit-content;
+    padding: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .center-panel, .right-panel {
+    width: 100%;
+  }
 }

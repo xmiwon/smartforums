@@ -1,0 +1,122 @@
+a {
+    text-decoration: none;
+}
+
+.status-feed {
+    background-color: white;
+}
+
+.timeline-picture {
+    display: inline;
+    vertical-align: text-bottom;
+}
+.image {
+    display: block;
+}
+.name {
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+}
+.container {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    width: fit-content;
+    border:1px solid rgba(128, 128, 128, 0.315);
+    border-radius: 5px;
+    justify-content: left;
+}
+
+.left-container {
+    padding: 5px;
+    width:fit-content;
+}
+
+.right-container {
+    display: inline-block;
+}
+
+.status-post, textarea::-webkit-textarea-placeholder {
+    font-size: 25px;
+    position: relative;
+    width: 400px;
+    height: 90px;
+    border: none;
+    padding-top: 30px;
+    background-color: rgb(255, 255, 255);
+    resize: unset;
+}
+
+.status-post:focus {
+    outline: none;
+}
+
+
+
+.status-box {
+    border: 1px rgb(146, 146, 146) solid;
+    border-bottom: none;
+    border-left: 2px solid rgb(146, 146, 146);
+    border-top: none;
+    height: 250px;
+    overflow-y:auto;
+}
+
+
+
+.post-box {
+    border-bottom: 1px rgba(146, 146, 146, 0.383) solid;
+    padding: 40px;
+    padding-left: 30px;
+    text-align: left;
+}
+.name-box {
+    display: flex;
+    left: 0;
+}
+
+.date-box {
+
+}
+
+.components-holder {
+
+}
+.typing-length {
+    width: fit-content;
+    height: fit-content;
+    margin-right: 50px;
+    
+}
+
+.button-submit {
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    height: 100%;
+    vertical-align: bottom;
+    background-color: rgb(75, 75, 75);
+    border: none;
+    
+}
+
+.bottom-container {
+    margin: 20px;
+}
+
+@media only screen and (max-width: 650px) {
+    .right-container {
+        display: inline-block;
+
+    }
+    .status-post {
+        width: 100%;
+    }
+    
+}
+
+@media only screen and (max-width: 450px) {
+
+}
